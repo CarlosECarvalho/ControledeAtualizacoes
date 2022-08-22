@@ -46,6 +46,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.mkCNPJ = new System.Windows.Forms.MaskedTextBox();
             this.btConsultar = new System.Windows.Forms.Button();
+            this.btExcluir = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgClientes)).BeginInit();
             this.SuspendLayout();
             // 
@@ -98,7 +99,7 @@
             // 
             this.txtNome.Location = new System.Drawing.Point(15, 76);
             this.txtNome.Name = "txtNome";
-            this.txtNome.Size = new System.Drawing.Size(425, 20);
+            this.txtNome.Size = new System.Drawing.Size(409, 20);
             this.txtNome.TabIndex = 5;
             // 
             // TxtExec
@@ -131,9 +132,9 @@
             // 
             // btNovo
             // 
-            this.btNovo.Location = new System.Drawing.Point(446, 73);
+            this.btNovo.Location = new System.Drawing.Point(430, 76);
             this.btNovo.Name = "btNovo";
-            this.btNovo.Size = new System.Drawing.Size(64, 23);
+            this.btNovo.Size = new System.Drawing.Size(59, 23);
             this.btNovo.TabIndex = 6;
             this.btNovo.Text = "Novo";
             this.btNovo.UseVisualStyleBackColor = true;
@@ -141,19 +142,19 @@
             // 
             // btEditar
             // 
-            this.btEditar.Enabled = false;
-            this.btEditar.Location = new System.Drawing.Point(586, 73);
+            this.btEditar.Location = new System.Drawing.Point(547, 76);
             this.btEditar.Name = "btEditar";
-            this.btEditar.Size = new System.Drawing.Size(64, 23);
+            this.btEditar.Size = new System.Drawing.Size(59, 23);
             this.btEditar.TabIndex = 8;
             this.btEditar.Text = "Editar";
             this.btEditar.UseVisualStyleBackColor = true;
+            this.btEditar.Click += new System.EventHandler(this.btEditar_Click);
             // 
             // btExibir
             // 
-            this.btExibir.Location = new System.Drawing.Point(656, 73);
+            this.btExibir.Location = new System.Drawing.Point(606, 76);
             this.btExibir.Name = "btExibir";
-            this.btExibir.Size = new System.Drawing.Size(64, 23);
+            this.btExibir.Size = new System.Drawing.Size(59, 23);
             this.btExibir.TabIndex = 9;
             this.btExibir.Text = "Exibir";
             this.btExibir.UseVisualStyleBackColor = true;
@@ -169,8 +170,11 @@
             this.dgClientes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgClientes.Location = new System.Drawing.Point(12, 105);
             this.dgClientes.Name = "dgClientes";
+            this.dgClientes.ReadOnly = true;
+            this.dgClientes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgClientes.Size = new System.Drawing.Size(708, 333);
             this.dgClientes.TabIndex = 10;
+            this.dgClientes.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgClientes_CellContentClick);
             // 
             // MenuGeral
             // 
@@ -191,6 +195,7 @@
             // 
             // mkCNPJ
             // 
+            this.mkCNPJ.BackColor = System.Drawing.Color.White;
             this.mkCNPJ.Location = new System.Drawing.Point(15, 40);
             this.mkCNPJ.Mask = "00.000.000/0000-00";
             this.mkCNPJ.Name = "mkCNPJ";
@@ -200,19 +205,30 @@
             // 
             // btConsultar
             // 
-            this.btConsultar.Location = new System.Drawing.Point(516, 73);
+            this.btConsultar.Location = new System.Drawing.Point(488, 76);
             this.btConsultar.Name = "btConsultar";
-            this.btConsultar.Size = new System.Drawing.Size(64, 23);
+            this.btConsultar.Size = new System.Drawing.Size(59, 23);
             this.btConsultar.TabIndex = 7;
             this.btConsultar.Text = "Consultar";
             this.btConsultar.UseVisualStyleBackColor = true;
             this.btConsultar.Click += new System.EventHandler(this.btConsultar_Click);
+            // 
+            // btExcluir
+            // 
+            this.btExcluir.Location = new System.Drawing.Point(665, 76);
+            this.btExcluir.Name = "btExcluir";
+            this.btExcluir.Size = new System.Drawing.Size(59, 23);
+            this.btExcluir.TabIndex = 17;
+            this.btExcluir.Text = "Excluir";
+            this.btExcluir.UseVisualStyleBackColor = true;
+            this.btExcluir.Click += new System.EventHandler(this.btExcluir_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(732, 450);
+            this.Controls.Add(this.btExcluir);
             this.Controls.Add(this.btConsultar);
             this.Controls.Add(this.mkCNPJ);
             this.Controls.Add(this.label6);
@@ -263,6 +279,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.MaskedTextBox mkCNPJ;
         private System.Windows.Forms.Button btConsultar;
+        private System.Windows.Forms.Button btExcluir;
     }
 }
 
