@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Windows.Forms;
 using VersoesClientes.DBOperations;
+using System.IO;
 
 namespace VersoesClientes
 {
@@ -18,6 +19,7 @@ namespace VersoesClientes
         string oCNPJ, oNome, oExe, oScr, oHost, oMan;
         int index = -1;
         DataGridViewRow select;
+        FileSystemWatcher fso;
 
         public Form1()
         {
@@ -28,28 +30,77 @@ namespace VersoesClientes
             txtHost.ReadOnly = true;
             txtManager.ReadOnly = true;
             txtNome.ReadOnly = true;
+            fso = new FileSystemWatcher(@"C:\Users\Cadu\Music")
+            {
+                Filter = "*.zip", NotifyFilter = NotifyFilters.FileName | NotifyFilters.Size | NotifyFilters.CreationTime, EnableRaisingEvents = true
+            };
+            fso.Changed += OnActionOccurOnFolderPath;
+            fso.Created += OnActionOccurOnFolderPath;
+            fso.Deleted += OnActionOccurOnFolderPath;
+            fso.Renamed += OnFileRenameOccur;
+
+        }
+
+        private void OnFileRenameOccur(object sender, RenamedEventArgs e)
+        {
+            MessageBox.Show("O arquivo foi renomeado!\n" + e.OldName + "Nome atual: " + e.Name);
+        }
+
+        private void OnActionOccurOnFolderPath(object sender, FileSystemEventArgs e)
+        {
+            MessageBox.Show("O arquivo mudou!\n" + e.Name + "\n");
         }
 
         private void btExcluir_Click(object sender, EventArgs e)
         {
-            if (txtNome.Text.Length > 0 && mkCNPJ.Text.Length > 0 && index > -1)
+            if (txtNome.Text.Length > -1 && mkCNPJ.Text.Length > -1 && index > -1)
             {
               string id = select.Cells[0].Value.ToString();
               exclui.Remover(Convert.ToInt32(id));
               consulta.ExibirTodos(dgClientes);
             }
-            else { MessageBox.Show("Você não informou dados suficientes"); }
+            else { MessageBox.Show("Você não informou dados suficientes.\nSelecione um registro para excluir."); }
+        }
+
+        private void MenuArquivos_Click(object sender, EventArgs e)
+        {
+            Arquivos arquivos = new Arquivos();
+            arquivos.Show();
         }
 
         private void btNovo_Click(object sender, EventArgs e)
         {
-            if (txtNome.Text.Length > 0 && mkCNPJ.Text.Length > 0)
-            { insert.Insere(mkCNPJ.Text, txtNome.Text, TxtExec.Text, txtHost.Text, txtScript.Text, txtManager.Text);}
-            else { MessageBox.Show("Você não informou dados suficientes"); }
+            mkCNPJ.ReadOnly = false;
+            TxtExec.ReadOnly = false;
+            txtScript.ReadOnly = false;
+            txtHost.ReadOnly = false;
+            txtManager.ReadOnly = false;
+            txtNome.ReadOnly = false;
+            
+            if(mkCNPJ.Text.Length == 14 && txtNome.Text.Length != 0)
+            {
+                result = MessageBox.Show("             Você deseja salvar?", "Atenção", MessageBoxButtons.YesNo);
+                if ( result == DialogResult.Yes)
+                {
+                    insert.Insere(mkCNPJ.Text, txtNome.Text, TxtExec.Text, txtHost.Text, txtScript.Text, txtManager.Text);
+                    consulta.ExibirTodos(dgClientes);
+                    mkCNPJ.ReadOnly = true;
+                    TxtExec.ReadOnly = true;
+                    txtScript.ReadOnly = true;
+                    txtHost.ReadOnly = true;
+                    txtManager.ReadOnly = true;
+                    txtNome.ReadOnly = true;
+                }
+                else
+                { MessageBox.Show("Abortado pelo usuário!"); }
+                
+            }
+            
         }
 
         private void btExibir_Click(object sender, EventArgs e)
         {
+            
             consulta.ExibirTodos(dgClientes);
         }
 
@@ -64,7 +115,7 @@ namespace VersoesClientes
         {
             try
             {
-                if (dgClientes.SelectedRows.Count > -1 && dgClientes.SelectedRows[0].Index != dgClientes.SelectedRows.Count - 2) 
+                if (dgClientes.SelectedRows.Count > -1 /*&& dgClientes.SelectedRows[0].Index != dgClientes.SelectedRows.Count - 1*/) 
                 {
 
                     index = e.RowIndex;

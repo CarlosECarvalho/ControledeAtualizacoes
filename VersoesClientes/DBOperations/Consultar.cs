@@ -24,8 +24,11 @@ namespace VersoesClientes.DBOperations
                 DA = new SqlDataAdapter(StrSql, Bd.Abrir());
 
                 DA.Fill(DS);
+                if (DS.Tables.ToString().Length > 0)
+                {
+                    dgClientes.DataSource = DS.Tables[0];
+                } else { MessageBox.Show("Não há nenhum registro."); }
 
-                dgClientes.DataSource = DS.Tables[0];
             }
             finally
             {

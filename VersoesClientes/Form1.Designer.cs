@@ -43,11 +43,15 @@
             this.btExibir = new System.Windows.Forms.Button();
             this.dgClientes = new System.Windows.Forms.DataGridView();
             this.MenuGeral = new System.Windows.Forms.MenuStrip();
+            this.MenuParam = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuArquivos = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuUsuarios = new System.Windows.Forms.ToolStripMenuItem();
             this.label6 = new System.Windows.Forms.Label();
             this.mkCNPJ = new System.Windows.Forms.MaskedTextBox();
             this.btConsultar = new System.Windows.Forms.Button();
             this.btExcluir = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgClientes)).BeginInit();
+            this.MenuGeral.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -173,16 +177,40 @@
             this.dgClientes.ReadOnly = true;
             this.dgClientes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgClientes.Size = new System.Drawing.Size(708, 333);
-            this.dgClientes.TabIndex = 10;
+            this.dgClientes.TabIndex = 11;
             this.dgClientes.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgClientes_CellContentClick);
             // 
             // MenuGeral
             // 
+            this.MenuGeral.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuParam});
             this.MenuGeral.Location = new System.Drawing.Point(0, 0);
             this.MenuGeral.Name = "MenuGeral";
             this.MenuGeral.Size = new System.Drawing.Size(732, 24);
             this.MenuGeral.TabIndex = 15;
             this.MenuGeral.Text = "menuStrip1";
+            // 
+            // MenuParam
+            // 
+            this.MenuParam.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuArquivos,
+            this.MenuUsuarios});
+            this.MenuParam.Name = "MenuParam";
+            this.MenuParam.Size = new System.Drawing.Size(105, 20);
+            this.MenuParam.Text = "Parametrizações";
+            // 
+            // MenuArquivos
+            // 
+            this.MenuArquivos.Name = "MenuArquivos";
+            this.MenuArquivos.Size = new System.Drawing.Size(180, 22);
+            this.MenuArquivos.Text = "Arquivos";
+            this.MenuArquivos.Click += new System.EventHandler(this.MenuArquivos_Click);
+            // 
+            // MenuUsuarios
+            // 
+            this.MenuUsuarios.Name = "MenuUsuarios";
+            this.MenuUsuarios.Size = new System.Drawing.Size(180, 22);
+            this.MenuUsuarios.Text = "Usuários";
             // 
             // label6
             // 
@@ -218,7 +246,7 @@
             this.btExcluir.Location = new System.Drawing.Point(665, 76);
             this.btExcluir.Name = "btExcluir";
             this.btExcluir.Size = new System.Drawing.Size(59, 23);
-            this.btExcluir.TabIndex = 17;
+            this.btExcluir.TabIndex = 10;
             this.btExcluir.Text = "Excluir";
             this.btExcluir.UseVisualStyleBackColor = true;
             this.btExcluir.Click += new System.EventHandler(this.btExcluir_Click);
@@ -254,6 +282,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Versões em Clientes";
             ((System.ComponentModel.ISupportInitialize)(this.dgClientes)).EndInit();
+            this.MenuGeral.ResumeLayout(false);
+            this.MenuGeral.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -280,6 +310,9 @@
         private System.Windows.Forms.MaskedTextBox mkCNPJ;
         private System.Windows.Forms.Button btConsultar;
         private System.Windows.Forms.Button btExcluir;
+        private System.Windows.Forms.ToolStripMenuItem MenuParam;
+        private System.Windows.Forms.ToolStripMenuItem MenuArquivos;
+        private System.Windows.Forms.ToolStripMenuItem MenuUsuarios;
     }
 }
 
