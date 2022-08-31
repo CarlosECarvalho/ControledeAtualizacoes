@@ -202,14 +202,14 @@
             // MenuArquivos
             // 
             this.MenuArquivos.Name = "MenuArquivos";
-            this.MenuArquivos.Size = new System.Drawing.Size(180, 22);
+            this.MenuArquivos.Size = new System.Drawing.Size(121, 22);
             this.MenuArquivos.Text = "Arquivos";
             this.MenuArquivos.Click += new System.EventHandler(this.MenuArquivos_Click);
             // 
             // MenuUsuarios
             // 
             this.MenuUsuarios.Name = "MenuUsuarios";
-            this.MenuUsuarios.Size = new System.Drawing.Size(180, 22);
+            this.MenuUsuarios.Size = new System.Drawing.Size(121, 22);
             this.MenuUsuarios.Text = "Usuários";
             // 
             // label6
@@ -281,6 +281,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Versões em Clientes";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgClientes)).EndInit();
             this.MenuGeral.ResumeLayout(false);
             this.MenuGeral.PerformLayout();

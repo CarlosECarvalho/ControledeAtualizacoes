@@ -8,12 +8,13 @@ namespace VersoesClientes
     {
         public Conexao Bd = new Conexao();
         public SqlCommand comando;
+        string strSql;
 
         public void Insere(string CNPJ, string Nome, string Exec, string Host, string Script, string Manager)
         {
             try
             {
-                string strSql = "INSERT INTO ATUALIZACAO (CNPJ, NOME, VEREXEC, VERHOST, VERSCRIPT, VERMANAG, DATAATZ) VALUES (@CNPJ, @NOME, @VEREXEC, @VERHOST, @VERSCRIPT, @VERMANAG, @DATAATZ)";
+                strSql = "INSERT INTO ATUALIZACAO (CNPJ, NOME, VEREXEC, VERHOST, VERSCRIPT, VERMANAG, DATAATZ) VALUES (@CNPJ, @NOME, @VEREXEC, @VERHOST, @VERSCRIPT, @VERMANAG, @DATAATZ)";
 
                 comando = new SqlCommand(strSql, Bd.Abrir());
 
@@ -37,7 +38,40 @@ namespace VersoesClientes
             {
                 Bd.Fechar();
                 comando = null;
+                strSql = null;
             }
+        }
+
+        public void InsereCaminho (string Exec, string Host, string Script, string Man)
+        {
+            try
+            {
+                strSql = "INSERT INTO CAMINHOS (CamExec, CamHost, CamScr ,CamMan , DataAlt) VALUES (@EXEC, @HOST, @SCR, @MAN, @DATA)";
+
+                comando = new SqlCommand(strSql, Bd.Abrir());
+
+                comando.Parameters.AddWithValue("@EXEC", Exec);
+                comando.Parameters.AddWithValue("@HOST", Host);
+                comando.Parameters.AddWithValue("@SCR", Script);
+                comando.Parameters.AddWithValue("@MAN", Man);
+                comando.Parameters.AddWithValue("@DATA", DateTime.Now);
+
+                comando.ExecuteNonQuery();
+
+                MessageBox.Show("Salvo com sucesso!");
+            }
+            catch (Exception Ex)
+            {
+
+                MessageBox.Show(Ex.Message);
+            }
+            finally
+            {
+                Bd.Fechar();
+                comando = null;
+                strSql = null;
+            }
+            
         }
     }
 }
