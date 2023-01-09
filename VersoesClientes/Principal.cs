@@ -7,7 +7,7 @@ using System.IO;
 
 namespace VersoesClientes
 {
-    public partial class Form1 : Form
+    public partial class Principal : Form
     {
         SqlCommand comando = new SqlCommand();
         Conexao Bd = new Conexao();
@@ -16,14 +16,16 @@ namespace VersoesClientes
         Editar edit = new Editar();
         Excluir exclui = new Excluir();
         DialogResult result = DialogResult.None;
-        string oCNPJ, oNome, oExe, oScr, oHost, oMan;
+        string oCNPJ, oNome, oExe, oScr, oHost, oMan, uNome;
         int index = -1;
         DataGridViewRow select;
         FileSystemWatcher fso;
+        Login login = new Login();
 
-        public Form1()
+        public Principal(string nome)
         {
             InitializeComponent();
+        
             //inicializo os campos apenas como leitura para evitar que insira novos registros acidentalmente.
             mkCNPJ.ReadOnly = true;
             TxtExec.ReadOnly = true;
@@ -31,12 +33,26 @@ namespace VersoesClientes
             txtHost.ReadOnly = true;
             txtManager.ReadOnly = true;
             txtNome.ReadOnly = true;
+            uNome = nome;
             consulta.UltVer(TxtExec, txtHost, txtScript, txtManager);
-            
+            lblUsu.Text= ($"Você está logado como: {nome}");
+        }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            fso = new FileSystemWatcher(@"D:\Users\Cadu\Music")
+            {// filtro os arquivos conforme o caminho informado na parametrização
+                Filter = "*.rar",
+                NotifyFilter = NotifyFilters.FileName | NotifyFilters.Size | NotifyFilters.CreationTime,
+                EnableRaisingEvents = true
+            };
+            fso.Changed += OnActionOccurOnFolderPath;
+            fso.Created += OnActionOccurOnFolderPath;
+            fso.Deleted += OnActionOccurOnFolderPath;
+            fso.Renamed += OnFileRenameOccur;
+
 
         }
 
-        
 
         private void btExcluir_Click(object sender, EventArgs e)
         {
@@ -55,19 +71,7 @@ namespace VersoesClientes
             arquivos.Show();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            fso = new FileSystemWatcher(@"C:\Users\Cadu\Music")
-            {// filtro os arquivos conforme o caminho informado na parametrização
-                Filter = "*.rar",
-                NotifyFilter = NotifyFilters.FileName | NotifyFilters.Size | NotifyFilters.CreationTime,
-                EnableRaisingEvents = true
-            };
-            fso.Changed += OnActionOccurOnFolderPath;
-            fso.Created += OnActionOccurOnFolderPath;
-            fso.Deleted += OnActionOccurOnFolderPath;
-            fso.Renamed += OnFileRenameOccur;
-        }
+        
             private void OnFileRenameOccur(object sender, RenamedEventArgs e)
             { //informo que houve mudanças no arquivo 
                 MessageBox.Show("O arquivo foi renomeado!\nNome Anterior:" + e.OldName + "\nNome atual: " + e.Name);
@@ -77,9 +81,18 @@ namespace VersoesClientes
             {
                     MessageBox.Show("O arquivo mudou!\n" + e.Name + "\n");
             }
-        
 
-        
+        private void loginToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+                Login login = new Login();
+                login.Show();
+        }
+
+        private void MenuUsuarios_Click(object sender, EventArgs e)
+        {
+            var cadastro = new Usuario();
+            cadastro.Show();
+        }
 
         private void btNovo_Click(object sender, EventArgs e)
         {//habilito os campos para preenchimento
@@ -89,13 +102,16 @@ namespace VersoesClientes
             txtHost.ReadOnly = false;
             txtManager.ReadOnly = false;
             txtNome.ReadOnly = false;
-            
+            btNovo.Text = "Salvar";
+
             if(mkCNPJ.Text.Length == 14 && txtNome.Text.Length != 0)
             {
                 result = MessageBox.Show("             Você deseja salvar?", "Atenção", MessageBoxButtons.YesNo);
                 if ( result == DialogResult.Yes)
                 {//faço o insert, exibo a grade e bloqueio os botões para edição novamente.
-                    insert.Insere(mkCNPJ.Text, txtNome.Text, TxtExec.Text, txtHost.Text, txtScript.Text, txtManager.Text);
+                    
+
+                    insert.InsereAtualizacao(mkCNPJ.Text, txtNome.Text, TxtExec.Text, txtHost.Text, txtScript.Text, txtManager.Text, uNome);
                     consulta.ExibirTodos(dgClientes);
                     mkCNPJ.ReadOnly = true;
                     TxtExec.ReadOnly = true;

@@ -51,7 +51,7 @@
             this.lblVersao.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblVersao.Location = new System.Drawing.Point(13, 40);
             this.lblVersao.Name = "lblVersao";
-            this.lblVersao.Size = new System.Drawing.Size(143, 16);
+            this.lblVersao.Size = new System.Drawing.Size(142, 16);
             this.lblVersao.TabIndex = 0;
             this.lblVersao.Text = "Versão do Executável:";
             // 
@@ -61,7 +61,7 @@
             this.lblHost.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblHost.Location = new System.Drawing.Point(13, 66);
             this.lblHost.Name = "lblHost";
-            this.lblHost.Size = new System.Drawing.Size(105, 16);
+            this.lblHost.Size = new System.Drawing.Size(104, 16);
             this.lblHost.TabIndex = 1;
             this.lblHost.Text = "Versão do Host:";
             // 
@@ -71,7 +71,7 @@
             this.lblScript.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblScript.Location = new System.Drawing.Point(13, 92);
             this.lblScript.Name = "lblScript";
-            this.lblScript.Size = new System.Drawing.Size(111, 16);
+            this.lblScript.Size = new System.Drawing.Size(110, 16);
             this.lblScript.TabIndex = 2;
             this.lblScript.Text = "Versão do Script:";
             // 
@@ -81,7 +81,7 @@
             this.lblMan.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMan.Location = new System.Drawing.Point(13, 118);
             this.lblMan.Name = "lblMan";
-            this.lblMan.Size = new System.Drawing.Size(166, 16);
+            this.lblMan.Size = new System.Drawing.Size(165, 16);
             this.lblMan.TabIndex = 3;
             this.lblMan.Text = "Versão do Manager Edoc:";
             // 
@@ -209,7 +209,7 @@
             this.MinimizeBox = false;
             this.Name = "Arquivos";
             this.ShowIcon = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Arquivos";
             this.ResumeLayout(false);
             this.PerformLayout();

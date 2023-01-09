@@ -1,6 +1,6 @@
 ﻿namespace VersoesClientes
 {
-    partial class Form1
+    partial class Principal
     {
         /// <summary>
         /// Required designer variable.
@@ -46,10 +46,12 @@
             this.MenuParam = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuArquivos = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuUsuarios = new System.Windows.Forms.ToolStripMenuItem();
+            this.loginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label6 = new System.Windows.Forms.Label();
             this.mkCNPJ = new System.Windows.Forms.MaskedTextBox();
             this.btConsultar = new System.Windows.Forms.Button();
             this.btExcluir = new System.Windows.Forms.Button();
+            this.lblUsu = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgClientes)).BeginInit();
             this.MenuGeral.SuspendLayout();
             this.SuspendLayout();
@@ -103,40 +105,40 @@
             // 
             this.txtNome.Location = new System.Drawing.Point(15, 76);
             this.txtNome.Name = "txtNome";
-            this.txtNome.Size = new System.Drawing.Size(409, 20);
-            this.txtNome.TabIndex = 5;
+            this.txtNome.Size = new System.Drawing.Size(705, 20);
+            this.txtNome.TabIndex = 1;
             // 
             // TxtExec
             // 
             this.TxtExec.Location = new System.Drawing.Point(214, 40);
             this.TxtExec.Name = "TxtExec";
             this.TxtExec.Size = new System.Drawing.Size(121, 20);
-            this.TxtExec.TabIndex = 1;
+            this.TxtExec.TabIndex = 2;
             // 
             // txtHost
             // 
             this.txtHost.Location = new System.Drawing.Point(341, 40);
             this.txtHost.Name = "txtHost";
             this.txtHost.Size = new System.Drawing.Size(120, 20);
-            this.txtHost.TabIndex = 2;
+            this.txtHost.TabIndex = 3;
             // 
             // txtScript
             // 
             this.txtScript.Location = new System.Drawing.Point(467, 40);
             this.txtScript.Name = "txtScript";
             this.txtScript.Size = new System.Drawing.Size(120, 20);
-            this.txtScript.TabIndex = 3;
+            this.txtScript.TabIndex = 4;
             // 
             // txtManager
             // 
             this.txtManager.Location = new System.Drawing.Point(594, 40);
             this.txtManager.Name = "txtManager";
             this.txtManager.Size = new System.Drawing.Size(127, 20);
-            this.txtManager.TabIndex = 4;
+            this.txtManager.TabIndex = 5;
             // 
             // btNovo
             // 
-            this.btNovo.Location = new System.Drawing.Point(430, 76);
+            this.btNovo.Location = new System.Drawing.Point(402, 444);
             this.btNovo.Name = "btNovo";
             this.btNovo.Size = new System.Drawing.Size(59, 23);
             this.btNovo.TabIndex = 6;
@@ -146,7 +148,7 @@
             // 
             // btEditar
             // 
-            this.btEditar.Location = new System.Drawing.Point(547, 76);
+            this.btEditar.Location = new System.Drawing.Point(532, 444);
             this.btEditar.Name = "btEditar";
             this.btEditar.Size = new System.Drawing.Size(59, 23);
             this.btEditar.TabIndex = 8;
@@ -156,7 +158,7 @@
             // 
             // btExibir
             // 
-            this.btExibir.Location = new System.Drawing.Point(606, 76);
+            this.btExibir.Location = new System.Drawing.Point(597, 444);
             this.btExibir.Name = "btExibir";
             this.btExibir.Size = new System.Drawing.Size(59, 23);
             this.btExibir.TabIndex = 9;
@@ -183,10 +185,11 @@
             // MenuGeral
             // 
             this.MenuGeral.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MenuParam});
+            this.MenuParam,
+            this.loginToolStripMenuItem});
             this.MenuGeral.Location = new System.Drawing.Point(0, 0);
             this.MenuGeral.Name = "MenuGeral";
-            this.MenuGeral.Size = new System.Drawing.Size(732, 24);
+            this.MenuGeral.Size = new System.Drawing.Size(729, 24);
             this.MenuGeral.TabIndex = 15;
             this.MenuGeral.Text = "menuStrip1";
             // 
@@ -202,15 +205,24 @@
             // MenuArquivos
             // 
             this.MenuArquivos.Name = "MenuArquivos";
-            this.MenuArquivos.Size = new System.Drawing.Size(121, 22);
+            this.MenuArquivos.Size = new System.Drawing.Size(146, 22);
             this.MenuArquivos.Text = "Arquivos";
             this.MenuArquivos.Click += new System.EventHandler(this.MenuArquivos_Click);
             // 
             // MenuUsuarios
             // 
             this.MenuUsuarios.Name = "MenuUsuarios";
-            this.MenuUsuarios.Size = new System.Drawing.Size(121, 22);
-            this.MenuUsuarios.Text = "Usuários";
+            this.MenuUsuarios.Size = new System.Drawing.Size(146, 22);
+            this.MenuUsuarios.Text = "Editar usuário";
+            this.MenuUsuarios.Click += new System.EventHandler(this.MenuUsuarios_Click);
+            // 
+            // loginToolStripMenuItem
+            // 
+            this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
+            this.loginToolStripMenuItem.Size = new System.Drawing.Size(100, 20);
+            this.loginToolStripMenuItem.Text = "Trocar de Login";
+            this.loginToolStripMenuItem.ToolTipText = "Trocar de usuário";
+            this.loginToolStripMenuItem.Click += new System.EventHandler(this.loginToolStripMenuItem_Click);
             // 
             // label6
             // 
@@ -233,7 +245,7 @@
             // 
             // btConsultar
             // 
-            this.btConsultar.Location = new System.Drawing.Point(488, 76);
+            this.btConsultar.Location = new System.Drawing.Point(467, 444);
             this.btConsultar.Name = "btConsultar";
             this.btConsultar.Size = new System.Drawing.Size(59, 23);
             this.btConsultar.TabIndex = 7;
@@ -243,7 +255,7 @@
             // 
             // btExcluir
             // 
-            this.btExcluir.Location = new System.Drawing.Point(665, 76);
+            this.btExcluir.Location = new System.Drawing.Point(662, 444);
             this.btExcluir.Name = "btExcluir";
             this.btExcluir.Size = new System.Drawing.Size(59, 23);
             this.btExcluir.TabIndex = 10;
@@ -251,11 +263,22 @@
             this.btExcluir.UseVisualStyleBackColor = true;
             this.btExcluir.Click += new System.EventHandler(this.btExcluir_Click);
             // 
-            // Form1
+            // lblUsu
+            // 
+            this.lblUsu.AutoSize = true;
+            this.lblUsu.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUsu.Location = new System.Drawing.Point(14, 449);
+            this.lblUsu.Name = "lblUsu";
+            this.lblUsu.Size = new System.Drawing.Size(0, 13);
+            this.lblUsu.TabIndex = 17;
+            // 
+            // Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(732, 450);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(729, 476);
+            this.Controls.Add(this.lblUsu);
             this.Controls.Add(this.btExcluir);
             this.Controls.Add(this.btConsultar);
             this.Controls.Add(this.mkCNPJ);
@@ -275,9 +298,10 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.MenuGeral);
+            this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.MainMenuStrip = this.MenuGeral;
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "Principal";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Versões em Clientes";
@@ -314,6 +338,9 @@
         private System.Windows.Forms.ToolStripMenuItem MenuParam;
         private System.Windows.Forms.ToolStripMenuItem MenuArquivos;
         private System.Windows.Forms.ToolStripMenuItem MenuUsuarios;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem loginToolStripMenuItem;
+        private System.Windows.Forms.Label lblUsu;
     }
 }
 
