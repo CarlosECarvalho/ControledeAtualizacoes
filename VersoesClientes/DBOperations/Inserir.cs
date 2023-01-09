@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using VersoesClientes.DBOperations;
 
 namespace VersoesClientes
 {
@@ -10,11 +12,14 @@ namespace VersoesClientes
         public SqlCommand comando;
         string strSql;
 
-        public void Insere(string CNPJ, string Nome, string Exec, string Host, string Script, string Manager)
+        public void InsereAtualizacao(string CNPJ, string Nome, string Exec, string Host, string Script, string Manager, string Unome)
         {
             try
             {
-                strSql = "INSERT INTO ATUALIZACAO (CNPJ, NOME, VEREXEC, VERHOST, VERSCRIPT, VERMANAG, DATAATZ) VALUES (@CNPJ, @NOME, @VEREXEC, @VERHOST, @VERSCRIPT, @VERMANAG, @DATAATZ)";
+                Consultar consulta= new Consultar();
+                int IdUsu = consulta.IdUsu(Unome);
+                
+                strSql = "INSERT INTO ATUALIZACAO (CNPJ, NOME, VEREXEC, VERHOST, VERSCRIPT, VERMANAG, DATAATZ, IDUSU) VALUES (@CNPJ, @NOME, @VEREXEC, @VERHOST, @VERSCRIPT, @VERMANAG, @DATAATZ, @IDUSU)";
 
                 comando = new SqlCommand(strSql, Bd.Abrir());
 
@@ -25,7 +30,7 @@ namespace VersoesClientes
                 comando.Parameters.AddWithValue("@VERSCRIPT", Script);
                 comando.Parameters.AddWithValue("@VERMANAG", Manager);
                 comando.Parameters.AddWithValue("@DATAATZ", DateTime.Now);
-
+                comando.Parameters.AddWithValue("@IDUSU", IdUsu);
                 comando.ExecuteNonQuery();
 
             }
@@ -72,6 +77,23 @@ namespace VersoesClientes
                 strSql = null;
             }
             
+        }
+
+        public void CadUsuario(string nome)
+        {
+            strSql = "INSERT INTO USUARIO (NomeUsu, DtCadastro, Ativo) VALUES (@NOME, @DATA, @ATIVO)";
+            comando = new SqlCommand(strSql, Bd.Abrir());
+
+            comando.Parameters.AddWithValue("@NOME", nome);
+            comando.Parameters.AddWithValue("@DATA", DateTime.Now);
+            comando.Parameters.AddWithValue("@ATIVO", 'S');
+
+            comando.ExecuteNonQuery();
+
+            MessageBox.Show("Salvo com sucesso.");
+
+            //}
+
         }
     }
 }
