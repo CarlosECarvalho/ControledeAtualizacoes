@@ -3,10 +3,11 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Windows.Forms;
 using VersoesClientes.DBOperations;
+using System.IO;
 
 namespace VersoesClientes
 {
-    public partial class Form1 : Form
+    public partial class Principal : Form
     {
         SqlCommand comando = new SqlCommand();
         Conexao Bd = new Conexao();
@@ -15,41 +16,120 @@ namespace VersoesClientes
         Editar edit = new Editar();
         Excluir exclui = new Excluir();
         DialogResult result = DialogResult.None;
-        string oCNPJ, oNome, oExe, oScr, oHost, oMan;
+        string oCNPJ, oNome, oExe, oScr, oHost, oMan, uNome;
         int index = -1;
         DataGridViewRow select;
+        FileSystemWatcher fso;
+        Login login = new Login();
 
-        public Form1()
+        public Principal(string nome)
         {
             InitializeComponent();
+        
+            //inicializo os campos apenas como leitura para evitar que insira novos registros acidentalmente.
             mkCNPJ.ReadOnly = true;
             TxtExec.ReadOnly = true;
             txtScript.ReadOnly = true;
             txtHost.ReadOnly = true;
             txtManager.ReadOnly = true;
             txtNome.ReadOnly = true;
+            uNome = nome;
+            consulta.UltVer(TxtExec, txtHost, txtScript, txtManager);
+            lblUsu.Text= ($"Você está logado como: {nome}");
         }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            fso = new FileSystemWatcher(@"D:\Users\Cadu\Music")
+            {// filtro os arquivos conforme o caminho informado na parametrização
+                Filter = "*.rar",
+                NotifyFilter = NotifyFilters.FileName | NotifyFilters.Size | NotifyFilters.CreationTime,
+                EnableRaisingEvents = true
+            };
+            fso.Changed += OnActionOccurOnFolderPath;
+            fso.Created += OnActionOccurOnFolderPath;
+            fso.Deleted += OnActionOccurOnFolderPath;
+            fso.Renamed += OnFileRenameOccur;
+
+
+        }
+
 
         private void btExcluir_Click(object sender, EventArgs e)
         {
-            if (txtNome.Text.Length > 0 && mkCNPJ.Text.Length > 0 && index > -1)
+            if (txtNome.Text.Length > -1 && mkCNPJ.Text.Length > -1 && index > -1)// verifrico se o registro possui nome e CNPJ
             {
-              string id = select.Cells[0].Value.ToString();
+              string id = select.Cells[0].Value.ToString(); //obtenho o id da linha selecionada
               exclui.Remover(Convert.ToInt32(id));
               consulta.ExibirTodos(dgClientes);
             }
-            else { MessageBox.Show("Você não informou dados suficientes"); }
+            else { MessageBox.Show("Você não informou dados suficientes.\nSelecione um registro para excluir."); }
+        }
+
+        private void MenuArquivos_Click(object sender, EventArgs e)
+        {
+            Arquivos arquivos = new Arquivos();
+            arquivos.Show();
+        }
+
+        
+            private void OnFileRenameOccur(object sender, RenamedEventArgs e)
+            { //informo que houve mudanças no arquivo 
+                MessageBox.Show("O arquivo foi renomeado!\nNome Anterior:" + e.OldName + "\nNome atual: " + e.Name);
+            }
+
+            private void OnActionOccurOnFolderPath(object sender, FileSystemEventArgs e)
+            {
+                    MessageBox.Show("O arquivo mudou!\n" + e.Name + "\n");
+            }
+
+        private void loginToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+                Login login = new Login();
+                login.Show();
+        }
+
+        private void MenuUsuarios_Click(object sender, EventArgs e)
+        {
+            var cadastro = new Usuario();
+            cadastro.Show();
         }
 
         private void btNovo_Click(object sender, EventArgs e)
-        {
-            if (txtNome.Text.Length > 0 && mkCNPJ.Text.Length > 0)
-            { insert.Insere(mkCNPJ.Text, txtNome.Text, TxtExec.Text, txtHost.Text, txtScript.Text, txtManager.Text);}
-            else { MessageBox.Show("Você não informou dados suficientes"); }
+        {//habilito os campos para preenchimento
+            mkCNPJ.ReadOnly = false;
+            TxtExec.ReadOnly = false;
+            txtScript.ReadOnly = false;
+            txtHost.ReadOnly = false;
+            txtManager.ReadOnly = false;
+            txtNome.ReadOnly = false;
+            btNovo.Text = "Salvar";
+
+            if(mkCNPJ.Text.Length == 14 && txtNome.Text.Length != 0)
+            {
+                result = MessageBox.Show("             Você deseja salvar?", "Atenção", MessageBoxButtons.YesNo);
+                if ( result == DialogResult.Yes)
+                {//faço o insert, exibo a grade e bloqueio os botões para edição novamente.
+                    
+
+                    insert.InsereAtualizacao(mkCNPJ.Text, txtNome.Text, TxtExec.Text, txtHost.Text, txtScript.Text, txtManager.Text, uNome);
+                    consulta.ExibirTodos(dgClientes);
+                    mkCNPJ.ReadOnly = true;
+                    TxtExec.ReadOnly = true;
+                    txtScript.ReadOnly = true;
+                    txtHost.ReadOnly = true;
+                    txtManager.ReadOnly = true;
+                    txtNome.ReadOnly = true;
+                }
+                else
+                { MessageBox.Show("Abortado pelo usuário!"); }
+                
+            }
+            
         }
 
         private void btExibir_Click(object sender, EventArgs e)
         {
+            
             consulta.ExibirTodos(dgClientes);
         }
 
@@ -64,11 +144,12 @@ namespace VersoesClientes
         {
             try
             {
-                if (dgClientes.SelectedRows.Count > -1 && dgClientes.SelectedRows[0].Index != dgClientes.SelectedRows.Count - 2) 
+                if (dgClientes.SelectedRows.Count > -1) 
                 {
-
-                    index = e.RowIndex;
+                    //faço o carregamento dos registros no grid
+                    index = e.RowIndex;//leio o indice no grid para preencher
                     select = dgClientes.Rows[index];
+                    index = Convert.ToInt32( select.Cells[0].Value); //recebo o indice do id na tabela 
                     mkCNPJ.Text = select.Cells[1].Value.ToString();
                     TxtExec.Text = select.Cells[3].Value.ToString();
                     txtScript.Text = select.Cells[5].Value.ToString();
@@ -105,10 +186,10 @@ namespace VersoesClientes
             
             try
             {                    
-                if (result == DialogResult.None)
+                if (result == DialogResult.None)//limpo o retorno da mensagem
                 {
                     if (index > -1)
-                    {
+                    {//verifico se o usuário está editando o registro e salvo os dados da última versão para verificar se houve alteração posterior.
                         result = MessageBox.Show("Você está editando os dados da Empresa?\n\nSim - Somente CNPJ e Empresa poderão ser alterados.\n\nNão - Somente dados desta atualização poderão ser alterados.", "Atenção", MessageBoxButtons.YesNo);
                         oCNPJ = mkCNPJ.Text;
                         oNome = txtNome.Text;
@@ -124,7 +205,7 @@ namespace VersoesClientes
                     }
                 }
                 if (result == DialogResult.Yes)
-                {
+                {//bloqueio os campos de atualização para habilitar somente dados da empresa
                     TxtExec.Enabled = false;
                     txtScript.Enabled = false;
                     txtHost.Enabled = false;
@@ -136,14 +217,14 @@ namespace VersoesClientes
                     {
                         mkCNPJ.Enabled = true;
                         txtNome.Enabled = true;
-                        result = DialogResult.None;
+                        result = DialogResult.None;//limpo a variável de resultado do dialogo
                     }
                     if (mkCNPJ.Text != oCNPJ || txtNome.Text != oNome)
                     {
                         DialogResult res = DialogResult.None;
                         res = MessageBox.Show("Deseja salvar as alterações?\nTodos os registros desta empresa serão modificados.","Atenção", MessageBoxButtons.OKCancel);
                         if (res == DialogResult.OK)
-                        {
+                        {//insiro o registro e desabilito os campos para edição novamente
                             edit.EditarEmpresa(oCNPJ, mkCNPJ.Text, txtNome.Text);
                             consulta.ExibirTodos(dgClientes);
                             result = DialogResult.None;
@@ -177,7 +258,6 @@ namespace VersoesClientes
                         res = MessageBox.Show("Deseja salvar as alterações?\nEste registro de atualização será modificado.", "Atenção", MessageBoxButtons.OKCancel);
                         if (res == DialogResult.OK)
                         {
-                            index++;
                             edit.EditarAtz(index, TxtExec.Text, txtHost.Text, txtScript.Text, txtManager.Text);
                             consulta.ExibirTodos(dgClientes);
                             result = DialogResult.None;
