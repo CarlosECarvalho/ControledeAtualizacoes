@@ -1,4 +1,4 @@
-# Controle-de-Atualizacoes
+# Controle de Atualizacoes
 Esta aplicação consiste em um painel que irá monitorar a alteração de arquivos de atualização de um sistema e alertará ao usuário quando houver uma alteração dos mesmos.
 Também, via painel, o usuário poderá inserir um registro que sinalizará que uma atualização foi aplicada a um cliente.
 O usuário poderá acessar via login ou se cadastrar na hora do acesso, para registro de qual usuário fez a atualização do cliente.
